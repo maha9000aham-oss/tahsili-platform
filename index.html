@@ -1,1 +1,811 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>منصة التحصيلي الذكية</title>
+  <style>
+    :root{
+      --primary:#5b35d5;
+      --primary-dark:#4322ac;
+      --secondary:#7b5cff;
+      --bg:#f4f2fb;
+      --card:#ffffff;
+      --text:#1f2440;
+      --muted:#6b7280;
+      --border:#e7e2fb;
+      --success:#16a34a;
+      --danger:#dc2626;
+      --warning:#f59e0b;
+      --shadow:0 18px 40px rgba(54,34,140,.10);
+      --radius-xl:28px;
+      --radius-lg:22px;
+      --radius-md:16px;
+    }
 
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+    body{
+      font-family: "Tahoma","Arial",sans-serif;
+      background:linear-gradient(180deg,#f6f4fe 0%, #f1eefc 100%);
+      color:var(--text);
+      min-height:100vh;
+    }
+
+    .app{
+      width:min(1100px,92%);
+      margin:0 auto;
+      padding:24px 0 40px;
+    }
+
+    .hero{
+      background:linear-gradient(135deg,var(--primary-dark),var(--primary));
+      color:#fff;
+      border-radius:32px;
+      padding:28px 22px;
+      box-shadow:var(--shadow);
+      position:relative;
+      overflow:hidden;
+    }
+
+    .hero::before,
+    .hero::after{
+      content:"";
+      position:absolute;
+      border-radius:50%;
+      background:rgba(255,255,255,.08);
+    }
+
+    .hero::before{
+      width:180px;height:180px;
+      left:-40px;top:-40px;
+    }
+
+    .hero::after{
+      width:130px;height:130px;
+      right:-20px;bottom:-30px;
+    }
+
+    .hero h1{
+      margin:0 0 10px;
+      font-size:34px;
+    }
+
+    .hero p{
+      margin:0;
+      font-size:17px;
+      line-height:1.9;
+      color:rgba(255,255,255,.92);
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:1.3fr .7fr;
+      gap:18px;
+      margin-top:18px;
+    }
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:var(--radius-xl);
+      box-shadow:var(--shadow);
+    }
+
+    .panel{
+      padding:22px;
+    }
+
+    .hidden{display:none !important}
+
+    .stats{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:12px;
+    }
+
+    .stat{
+      background:#f8f7fe;
+      border:1px solid var(--border);
+      border-radius:18px;
+      padding:16px;
+      text-align:center;
+    }
+
+    .stat .n{
+      display:block;
+      font-size:24px;
+      font-weight:700;
+      color:var(--primary);
+      margin-bottom:6px;
+    }
+
+    .stat .l{
+      font-size:14px;
+      color:var(--muted);
+    }
+
+    .section-title{
+      margin:0 0 16px;
+      font-size:22px;
+    }
+
+    .section-sub{
+      margin:-6px 0 18px;
+      color:var(--muted);
+      line-height:1.8;
+      font-size:15px;
+    }
+
+    .subjects{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:14px;
+    }
+
+    .subject-btn{
+      width:100%;
+      border:none;
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:20px;
+      padding:18px 14px;
+      cursor:pointer;
+      box-shadow:0 10px 24px rgba(91,53,213,.06);
+      transition:.2s ease;
+      text-align:right;
+    }
+
+    .subject-btn:hover{
+      transform:translateY(-2px);
+      border-color:#cfc4ff;
+    }
+
+    .subject-btn .icon{
+      font-size:28px;
+      display:block;
+      margin-bottom:10px;
+    }
+
+    .subject-btn .name{
+      display:block;
+      font-size:18px;
+      font-weight:700;
+      color:var(--text);
+      margin-bottom:6px;
+    }
+
+    .subject-btn .meta{
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:16px;
+      flex-wrap:wrap;
+    }
+
+    .badge{
+      background:#f4f0ff;
+      color:var(--primary);
+      border:1px solid #ddd2ff;
+      padding:10px 14px;
+      border-radius:999px;
+      font-weight:700;
+      font-size:14px;
+    }
+
+    .progress-wrap{
+      background:#f3f1fc;
+      border-radius:999px;
+      overflow:hidden;
+      height:14px;
+      border:1px solid var(--border);
+    }
+
+    .progress-bar{
+      height:100%;
+      width:0%;
+      background:linear-gradient(90deg,var(--secondary),var(--primary));
+      transition:width .25s ease;
+    }
+
+    .question-box{
+      margin-top:16px;
+      border:1px solid var(--border);
+      border-radius:24px;
+      padding:22px;
+      background:#fcfbff;
+    }
+
+    .question-text{
+      font-size:28px;
+      line-height:1.9;
+      margin:0 0 18px;
+      font-weight:700;
+    }
+
+    .question-note{
+      margin:-6px 0 18px;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.8;
+    }
+
+    .options{
+      display:grid;
+      gap:12px;
+      margin-top:8px;
+    }
+
+    .option-btn{
+      width:100%;
+      text-align:right;
+      border:none;
+      border-radius:18px;
+      padding:16px 18px;
+      background:#fff;
+      border:1px solid var(--border);
+      color:var(--text);
+      font-size:17px;
+      cursor:pointer;
+      transition:.2s ease;
+      font-weight:600;
+    }
+
+    .option-btn:hover{
+      border-color:#cdbfff;
+      background:#f8f5ff;
+    }
+
+    .option-btn.correct{
+      background:#ecfdf3;
+      border-color:#a7f3c1;
+      color:#166534;
+    }
+
+    .option-btn.wrong{
+      background:#fef2f2;
+      border-color:#fecaca;
+      color:#991b1b;
+    }
+
+    .feedback{
+      margin-top:16px;
+      border-radius:18px;
+      padding:16px;
+      line-height:1.9;
+      font-size:15px;
+      display:none;
+    }
+
+    .feedback.success{
+      display:block;
+      background:#ecfdf3;
+      border:1px solid #b7efca;
+      color:#166534;
+    }
+
+    .feedback.error{
+      display:block;
+      background:#fef2f2;
+      border:1px solid #fecaca;
+      color:#991b1b;
+    }
+
+    .feedback strong{
+      display:block;
+      margin-bottom:6px;
+      font-size:16px;
+    }
+
+    .actions{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      margin-top:18px;
+      flex-wrap:wrap;
+    }
+
+    .btn{
+      border:none;
+      border-radius:16px;
+      padding:14px 18px;
+      cursor:pointer;
+      font-size:15px;
+      font-weight:700;
+      transition:.2s ease;
+    }
+
+    .btn.primary{
+      background:linear-gradient(135deg,var(--secondary),var(--primary));
+      color:#fff;
+    }
+
+    .btn.primary:hover{transform:translateY(-1px)}
+    .btn.secondary{
+      background:#fff;
+      color:var(--text);
+      border:1px solid var(--border);
+    }
+
+    .result-box{
+      text-align:center;
+      padding:28px 20px;
+    }
+
+    .score-circle{
+      width:170px;
+      height:170px;
+      border-radius:50%;
+      margin:0 auto 18px;
+      background:conic-gradient(var(--primary) 0deg, var(--secondary) 240deg, #ece8ff 240deg);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
+    }
+
+    .score-circle::after{
+      content:"";
+      position:absolute;
+      width:126px;
+      height:126px;
+      background:#fff;
+      border-radius:50%;
+    }
+
+    .score-content{
+      position:relative;
+      z-index:1;
+    }
+
+    .score-content .big{
+      display:block;
+      font-size:34px;
+      font-weight:800;
+      color:var(--primary);
+      line-height:1;
+      margin-bottom:6px;
+    }
+
+    .score-content .small{
+      color:var(--muted);
+      font-size:14px;
+      font-weight:700;
+    }
+
+    .result-title{
+      margin:6px 0 8px;
+      font-size:28px;
+    }
+
+    .result-text{
+      color:var(--muted);
+      margin:0 0 18px;
+      line-height:1.9;
+    }
+
+    .summary-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:12px;
+      margin-top:18px;
+    }
+
+    .summary-item{
+      border:1px solid var(--border);
+      background:#fbfaff;
+      border-radius:18px;
+      padding:16px 10px;
+    }
+
+    .summary-item .num{
+      display:block;
+      font-size:24px;
+      color:var(--primary);
+      font-weight:800;
+      margin-bottom:6px;
+    }
+
+    .summary-item .txt{
+      color:var(--muted);
+      font-size:14px;
+      font-weight:700;
+    }
+
+    .footer-note{
+      text-align:center;
+      color:var(--muted);
+      margin-top:18px;
+      font-size:13px;
+    }
+
+    @media (max-width:900px){
+      .grid{grid-template-columns:1fr}
+      .subjects{grid-template-columns:1fr}
+      .question-text{font-size:24px}
+      .summary-grid{grid-template-columns:1fr}
+      .hero h1{font-size:28px}
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <section class="hero">
+      <h1>منصة التحصيلي الذكية</h1>
+      <p>منصة تدريبية تفاعلية للتهيئة لاختبار التحصيلي، تشمل مواد الرياضيات والفيزياء والكيمياء والأحياء مع تغذية راجعة فورية ونتائج نهائية واضحة.</p>
+    </section>
+
+    <section id="homeView" class="grid">
+      <div class="card panel">
+        <h2 class="section-title">اختاري المادة</h2>
+        <p class="section-sub">ابدئي من المادة التي تريدين التدريب عليها، وكل مادة تحتوي على أسئلة تجريبية جاهزة قابلة للزيادة لاحقًا داخل نفس الملف.</p>
+
+        <div class="subjects" id="subjectsList"></div>
+      </div>
+
+      <div class="card panel">
+        <h2 class="section-title">لوحة سريعة</h2>
+        <div class="stats">
+          <div class="stat">
+            <span class="n">4</span>
+            <span class="l">مواد تدريبية</span>
+          </div>
+          <div class="stat">
+            <span class="n">12</span>
+            <span class="l">أسئلة تجريبية</span>
+          </div>
+          <div class="stat">
+            <span class="n">فوري</span>
+            <span class="l">تصحيح مباشر</span>
+          </div>
+          <div class="stat">
+            <span class="n">100%</span>
+            <span class="l">عرض النتيجة</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="quizView" class="card panel hidden">
+      <div class="topbar">
+        <div class="badge" id="subjectBadge">المادة</div>
+        <div class="badge" id="questionCounter">السؤال 1 من 1</div>
+      </div>
+
+      <div class="progress-wrap">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+
+      <div class="question-box">
+        <h2 class="question-text" id="questionText"></h2>
+        <p class="question-note" id="questionSkill"></p>
+        <div class="options" id="optionsBox"></div>
+        <div id="feedbackBox" class="feedback"></div>
+
+        <div class="actions">
+          <button class="btn secondary" onclick="goHome()">العودة للرئيسية</button>
+          <button class="btn primary hidden" id="nextBtn" onclick="nextQuestion()">السؤال التالي</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="resultView" class="card panel hidden">
+      <div class="result-box">
+        <div class="score-circle" id="scoreCircle">
+          <div class="score-content">
+            <span class="big" id="percentValue">0%</span>
+            <span class="small">النسبة النهائية</span>
+          </div>
+        </div>
+
+        <h2 class="result-title" id="resultTitle">أحسنت</h2>
+        <p class="result-text" id="resultText"></p>
+
+        <div class="summary-grid">
+          <div class="summary-item">
+            <span class="num" id="correctCount">0</span>
+            <span class="txt">إجابات صحيحة</span>
+          </div>
+          <div class="summary-item">
+            <span class="num" id="wrongCount">0</span>
+            <span class="txt">إجابات خاطئة</span>
+          </div>
+          <div class="summary-item">
+            <span class="num" id="totalCount">0</span>
+            <span class="txt">إجمالي الأسئلة</span>
+          </div>
+        </div>
+
+        <div class="actions" style="justify-content:center;margin-top:22px">
+          <button class="btn primary" onclick="restartSubject()">إعادة تدريب المادة</button>
+          <button class="btn secondary" onclick="goHome()">اختيار مادة أخرى</button>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer-note">نسخة تجريبية أولية قابلة للتوسعة داخل نفس الملف.</div>
+  </div>
+
+  <script>
+    const bank = {
+      math: {
+        name: "الرياضيات",
+        icon: "🔢",
+        description: "جبر وهندسة وحساب",
+        questions: [
+          {
+            q: "إذا كان 3س + 5 = 20، فما قيمة س؟",
+            skill: "المهارة: حل المعادلات الخطية البسيطة.",
+            options: ["3", "5", "7", "10"],
+            answer: 1,
+            explain: "نطرح 5 من 20 فيتبقى 15، ثم نقسم 15 على 3 فنحصل على 5."
+          },
+          {
+            q: "ما ناتج 12 × 8 ؟",
+            skill: "المهارة: إجراء العمليات الحسابية الأساسية.",
+            options: ["84", "88", "96", "108"],
+            answer: 2,
+            explain: "12 × 8 = 96."
+          },
+          {
+            q: "محيط مربع طول ضلعه 6 سم يساوي:",
+            skill: "المهارة: حساب محيط الأشكال الهندسية.",
+            options: ["12 سم", "18 سم", "24 سم", "36 سم"],
+            answer: 2,
+            explain: "محيط المربع = 4 × طول الضلع = 4 × 6 = 24 سم."
+          }
+        ]
+      },
+      physics: {
+        name: "الفيزياء",
+        icon: "⚡",
+        description: "قوى وحركة وطاقة",
+        questions: [
+          {
+            q: "وحدة قياس القوة في النظام الدولي هي:",
+            skill: "المهارة: التمييز بين الوحدات الفيزيائية.",
+            options: ["الجول", "النيوتن", "الواط", "الأمبير"],
+            answer: 1,
+            explain: "القوة تقاس بوحدة النيوتن."
+          },
+          {
+            q: "عندما تزداد سرعة الجسم فإن:",
+            skill: "المهارة: فهم مفهوم السرعة والحركة.",
+            options: ["يبقى ساكنًا", "تقل كتلته", "يتغير موضعه بمعدل أكبر", "تنعدم طاقته"],
+            answer: 2,
+            explain: "السرعة تعني معدل تغير الموضع مع الزمن، وعند زيادتها يتغير الموضع بشكل أسرع."
+          },
+          {
+            q: "أي نوع من الطاقة يمتلكه جسم متحرك؟",
+            skill: "المهارة: التمييز بين أنواع الطاقة.",
+            options: ["طاقة حرارية", "طاقة وضع", "طاقة حركية", "طاقة ضوئية"],
+            answer: 2,
+            explain: "الجسم المتحرك يمتلك طاقة حركية."
+          }
+        ]
+      },
+      chemistry: {
+        name: "الكيمياء",
+        icon: "🧪",
+        description: "عناصر ومركبات وتفاعلات",
+        questions: [
+          {
+            q: "الماء H2O يُعد:",
+            skill: "المهارة: التمييز بين العنصر والمركب.",
+            options: ["عنصرًا", "مركبًا", "مخلوطًا", "فلزًا"],
+            answer: 1,
+            explain: "الماء يتكون من اتحاد الهيدروجين والأكسجين كيميائيًا، لذلك هو مركب."
+          },
+          {
+            q: "الرقم الذري للعنصر يدل على عدد:",
+            skill: "المهارة: فهم بنية الذرة.",
+            options: ["النيوترونات", "الإلكترونات فقط", "البروتونات", "مستويات الطاقة"],
+            answer: 2,
+            explain: "الرقم الذري يساوي عدد البروتونات في نواة الذرة."
+          },
+          {
+            q: "أي المواد التالية تُعد حمضًا؟",
+            skill: "المهارة: تصنيف المواد الكيميائية الأساسية.",
+            options: ["NaOH", "HCl", "NaCl", "CO2"],
+            answer: 1,
+            explain: "حمض الهيدروكلوريك HCl من الأحماض المعروفة."
+          }
+        ]
+      },
+      biology: {
+        name: "الأحياء",
+        icon: "🧬",
+        description: "خلايا وأجهزة ووراثة",
+        questions: [
+          {
+            q: "العضية المسؤولة عن إنتاج الطاقة في الخلية هي:",
+            skill: "المهارة: التعرف على وظائف عضيات الخلية.",
+            options: ["النواة", "الميتوكوندريا", "الغشاء البلازمي", "الريبوسوم"],
+            answer: 1,
+            explain: "الميتوكوندريا تنتج الطاقة اللازمة للخلية."
+          },
+          {
+            q: "أي الأجهزة التالية مسؤول عن نقل الدم في جسم الإنسان؟",
+            skill: "المهارة: التمييز بين أجهزة الجسم ووظائفها.",
+            options: ["الجهاز الهضمي", "الجهاز التنفسي", "الجهاز الدوري", "الجهاز العصبي"],
+            answer: 2,
+            explain: "الجهاز الدوري مسؤول عن نقل الدم والمواد المختلفة داخل الجسم."
+          },
+          {
+            q: "الوحدة الأساسية في بناء أجسام المخلوقات الحية هي:",
+            skill: "المهارة: فهم التنظيم البنائي للكائنات الحية.",
+            options: ["النسيج", "الخلية", "العضو", "الجهاز"],
+            answer: 1,
+            explain: "الخلية هي الوحدة الأساسية في تركيب الكائنات الحية."
+          }
+        ]
+      }
+    };
+
+    const subjectsList = document.getElementById("subjectsList");
+    const homeView = document.getElementById("homeView");
+    const quizView = document.getElementById("quizView");
+    const resultView = document.getElementById("resultView");
+
+    const subjectBadge = document.getElementById("subjectBadge");
+    const questionCounter = document.getElementById("questionCounter");
+    const progressBar = document.getElementById("progressBar");
+    const questionText = document.getElementById("questionText");
+    const questionSkill = document.getElementById("questionSkill");
+    const optionsBox = document.getElementById("optionsBox");
+    const feedbackBox = document.getElementById("feedbackBox");
+    const nextBtn = document.getElementById("nextBtn");
+
+    const percentValue = document.getElementById("percentValue");
+    const scoreCircle = document.getElementById("scoreCircle");
+    const resultTitle = document.getElementById("resultTitle");
+    const resultText = document.getElementById("resultText");
+    const correctCount = document.getElementById("correctCount");
+    const wrongCount = document.getElementById("wrongCount");
+    const totalCount = document.getElementById("totalCount");
+
+    let currentSubjectKey = null;
+    let currentQuestions = [];
+    let currentIndex = 0;
+    let score = 0;
+    let answered = false;
+
+    function buildSubjects(){
+      subjectsList.innerHTML = "";
+      Object.keys(bank).forEach(key=>{
+        const subject = bank[key];
+        const btn = document.createElement("button");
+        btn.className = "subject-btn";
+        btn.innerHTML = `
+          <span class="icon">${subject.icon}</span>
+          <span class="name">${subject.name}</span>
+          <span class="meta">${subject.description} - ${subject.questions.length} أسئلة</span>
+        `;
+        btn.onclick = ()=>startSubject(key);
+        subjectsList.appendChild(btn);
+      });
+    }
+
+    function startSubject(key){
+      currentSubjectKey = key;
+      currentQuestions = bank[key].questions;
+      currentIndex = 0;
+      score = 0;
+      answered = false;
+
+      homeView.classList.add("hidden");
+      resultView.classList.add("hidden");
+      quizView.classList.remove("hidden");
+
+      renderQuestion();
+    }
+
+    function renderQuestion(){
+      answered = false;
+      const subject = bank[currentSubjectKey];
+      const question = currentQuestions[currentIndex];
+
+      subjectBadge.textContent = subject.icon + " " + subject.name;
+      questionCounter.textContent = `السؤال ${currentIndex + 1} من ${currentQuestions.length}`;
+      progressBar.style.width = `${((currentIndex) / currentQuestions.length) * 100}%`;
+
+      questionText.textContent = question.q;
+      questionSkill.textContent = question.skill;
+      optionsBox.innerHTML = "";
+      feedbackBox.className = "feedback";
+      feedbackBox.innerHTML = "";
+      nextBtn.classList.add("hidden");
+
+      question.options.forEach((option, index)=>{
+        const btn = document.createElement("button");
+        btn.className = "option-btn";
+        btn.textContent = option;
+        btn.onclick = ()=>selectAnswer(index, btn);
+        optionsBox.appendChild(btn);
+      });
+    }
+
+    function selectAnswer(selectedIndex, selectedButton){
+      if(answered) return;
+      answered = true;
+
+      const question = currentQuestions[currentIndex];
+      const optionButtons = document.querySelectorAll(".option-btn");
+      const isCorrect = selectedIndex === question.answer;
+
+      optionButtons.forEach((btn, i)=>{
+        btn.disabled = true;
+        if(i === question.answer) btn.classList.add("correct");
+        if(i === selectedIndex && i !== question.answer) btn.classList.add("wrong");
+      });
+
+      if(isCorrect){
+        score++;
+        feedbackBox.className = "feedback success";
+        feedbackBox.innerHTML = `<strong>إجابة صحيحة</strong>${question.explain}`;
+      }else{
+        feedbackBox.className = "feedback error";
+        feedbackBox.innerHTML = `<strong>إجابة غير صحيحة</strong>${question.explain}`;
+      }
+
+      nextBtn.classList.remove("hidden");
+      progressBar.style.width = `${((currentIndex + 1) / currentQuestions.length) * 100}%`;
+    }
+
+    function nextQuestion(){
+      currentIndex++;
+      if(currentIndex < currentQuestions.length){
+        renderQuestion();
+      }else{
+        showResult();
+      }
+    }
+
+    function showResult(){
+      quizView.classList.add("hidden");
+      resultView.classList.remove("hidden");
+
+      const total = currentQuestions.length;
+      const wrong = total - score;
+      const percent = Math.round((score / total) * 100);
+
+      percentValue.textContent = percent + "%";
+      correctCount.textContent = score;
+      wrongCount.textContent = wrong;
+      totalCount.textContent = total;
+      scoreCircle.style.background = `conic-gradient(var(--primary) 0deg, var(--secondary) ${percent * 3.6}deg, #ece8ff ${percent * 3.6}deg)`;
+
+      if(percent >= 85){
+        resultTitle.textContent = "ممتاز";
+        resultText.textContent = "أداؤك قوي جدًا في هذه المادة. استمري على نفس المستوى مع زيادة عدد الأسئلة.";
+      }else if(percent >= 60){
+        resultTitle.textContent = "جيد جدًا";
+        resultText.textContent = "أداؤك جيد، لكنك تحتاجين تدريبًا إضافيًا للوصول إلى مستوى أعلى.";
+      }else{
+        resultTitle.textContent = "تحتاجين تدريبًا أكثر";
+        resultText.textContent = "ابدئي بإعادة هذه المادة والتركيز على التغذية الراجعة بعد كل سؤال.";
+      }
+    }
+
+    function restartSubject(){
+      if(currentSubjectKey){
+        startSubject(currentSubjectKey);
+      }
+    }
+
+    function goHome(){
+      quizView.classList.add("hidden");
+      resultView.classList.add("hidden");
+      homeView.classList.remove("hidden");
+    }
+
+    buildSubjects();
+  </script>
+</body>
+</html>

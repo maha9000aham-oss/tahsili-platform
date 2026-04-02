@@ -737,13 +737,14 @@
       figureBox.innerHTML = "";
 audioBox.innerHTML = "";
 videoBox.innerHTML = "";
+figureBox.innerHTML = "";
 
 if(question.image){
-  figureBox.innerHTML = `<img src="${question.image}" alt="صورة السؤال" style="max-width:100%;border-radius:16px;border:1px solid var(--border);">`;
+  figureBox.innerHTML += `<img src="${question.image}" alt="صورة السؤال" style="max-width:100%;border-radius:16px;border:1px solid var(--border);">`;
 }
 
 if(question.gif){
-  figureBox.innerHTML += `<img src="${question.gif}" alt="gif" style="max-width:100%;border-radius:16px;border:1px solid var(--border);">`;
+  figureBox.innerHTML += `<img src="${question.gif}" alt="صورة متحركة" style="max-width:100%;border-radius:16px;border:1px solid var(--border);margin-top:10px;">`;
 }
 
 if(question.audio){

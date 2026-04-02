@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>منصة كريمة بنت همام الذكية</title>
 
 <style>
 :root{
@@ -14,64 +16,49 @@
   --shadow:0 10px 25px rgba(0,0,0,.08);
 }
 
-*{
-  box-sizing:border-box;
-}
-
-html,body{
-  margin:0;
-  padding:0;
-}
+*{box-sizing:border-box}
 
 body{
-  font-family:"Tahoma","Arial",sans-serif;
-  background:linear-gradient(180deg,#fff4f6 0%,#f1eefc 100%);
-  color:var(--text);
-  min-height:100vh;
+  margin:0;
+  font-family:"Tahoma","Arial";
+  background:linear-gradient(180deg,#fff4f6,#f1eefc);
 }
 
 .app{
-  width:min(1100px,92%);
-  margin:0 auto;
-  padding:24px 0 40px;
+  width:92%;
+  max-width:1000px;
+  margin:auto;
+  padding:20px;
 }
 
 .hero{
   background:linear-gradient(135deg,var(--primary-dark),var(--primary));
   color:#fff;
-  border-radius:24px;
-  padding:30px 20px;
+  border-radius:20px;
+  padding:25px;
   text-align:center;
-  box-shadow:var(--shadow);
 }
 
 .hero h1{
   margin:0;
-  font-size:26px;
-}
-
-.hero p{
-  margin-top:10px;
-  font-size:14px;
-}
-
-button{
-  padding:12px 25px;
-  background:var(--primary);
-  color:#fff;
-  border:none;
-  border-radius:10px;
-  cursor:pointer;
-  font-size:16px;
 }
 
 .card{
-  background:var(--card);
-  border-radius:20px;
+  background:#fff;
+  border-radius:15px;
   padding:20px;
   margin-top:20px;
-  box-shadow:var(--shadow);
   text-align:center;
+  box-shadow:var(--shadow);
+}
+
+button{
+  background:var(--primary);
+  color:#fff;
+  border:none;
+  padding:10px 20px;
+  border-radius:8px;
+  cursor:pointer;
 }
 
 .footer{
@@ -88,22 +75,44 @@ button{
 
 <div class="app">
 
-  <section class="hero">
-    <h1>منصة كريمة بنت همام الذكية</h1>
-    <p>
-      بقيادة الأستاذة / ابتهال عبدالله الصاملي<br>
-      إعداد وتصميم وبرمجة المنصة / مهاء يوسف الشهراني
-    </p>
-  </section>
+<div class="hero">
+<h1>منصة كريمة بنت همام الذكية</h1>
+<p>
+بقيادة الأستاذة / ابتهال عبدالله الصاملي<br>
+إعداد وتصميم وبرمجة / مهاء يوسف الشهراني
+</p>
+</div>
 
-  <div class="card">
-    <button>ابدئي الاختبار</button>
-  </div>
+<div class="card" id="content">
+<button onclick="start()">ابدئي الاختبار</button>
+</div>
 
-  <div class="footer">
-    رحلة تدريبية ملهمة، نحو أداءٍ متميز ومستقبلٍ واعد، انسجامًا مع مستهدفات رؤية السعودية 2030.
-  </div>
+<div class="footer">
+رحلة تدريبية ملهمة، نحو أداءٍ متميز ومستقبلٍ واعد، انسجامًا مع رؤية السعودية 2030
+</div>
 
 </div>
 
 <script>
+function start(){
+  document.getElementById("content").innerHTML = `
+    <h2>سؤال تجريبي</h2>
+    <p>ما ناتج 2 + 2 ؟</p>
+
+    <button onclick="answer(3)">3</button>
+    <button onclick="answer(4)">4</button>
+    <button onclick="answer(5)">5</button>
+  `;
+}
+
+function answer(val){
+  if(val === 4){
+    alert("إجابة صحيحة");
+  }else{
+    alert("إجابة خاطئة");
+  }
+}
+</script>
+
+</body>
+</html>

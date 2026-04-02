@@ -734,6 +734,25 @@
       answered = false;
       const subject = bank[currentSubjectKey];
       const question = currentQuestions[currentIndex];
+      figureBox.innerHTML = "";
+audioBox.innerHTML = "";
+videoBox.innerHTML = "";
+
+if(question.image){
+  figureBox.innerHTML = `<img src="${question.image}" alt="صورة السؤال" style="max-width:100%;border-radius:16px;border:1px solid var(--border);">`;
+}
+
+if(question.gif){
+  figureBox.innerHTML += `<img src="${question.gif}" alt="gif" style="max-width:100%;border-radius:16px;border:1px solid var(--border);">`;
+}
+
+if(question.audio){
+  audioBox.innerHTML = `<audio controls style="width:100%;max-width:500px;"><source src="${question.audio}"></audio>`;
+}
+
+if(question.video){
+  videoBox.innerHTML = `<video controls style="width:100%;max-width:700px;border-radius:16px;border:1px solid var(--border);"><source src="${question.video}"></video>`;
+}
 
       subjectBadge.textContent = subject.icon + " " + subject.name;
       questionCounter.textContent = `السؤال ${currentIndex + 1} من ${currentQuestions.length}`;

@@ -1126,7 +1126,7 @@ videoBox.innerHTML = "";
 figureBox.innerHTML = "";
 
 if(question.image){
-  figureBox.innerHTML += `<img src="${question.image}" alt="صورة السؤال" style="max-width:100%;border-radius:16px;border:1px solid var(--border);">`;
+figureBox.innerHTML += `<img src="${question.image}" alt="صورة السؤال" style="width:100%;max-width:600px;height:auto;border-radius:16px;border:1px solid #ddd;object-fit:contain;filter:contrast(120%) brightness(105%) saturate(110%);">`;
 }
 
 if(question.gif){
